@@ -22,6 +22,41 @@ A write-optimized storage engine built from scratch in Go — memtable, SSTables
 6. **Bloom filters** — skip SSTables that definitely don't contain a key
 7. **Benchmarks** — compare random writes, sequential reads, point lookups
 
+## Progress
+
+### Phase 1: Red-Black Tree (Memtable internals)
+- [ ] Define node and tree structs
+- [ ] Implement left-rotate and right-rotate
+- [ ] Implement insert (BST insert + color red)
+- [ ] Implement insert-fixup (recoloring/rotation cases)
+- [ ] Implement search
+- [ ] Implement in-order traversal
+- [ ] Tests for all operations
+
+### Phase 2: Memtable
+- [ ] Wrap red-black tree with memtable API (Put, Get, Delete)
+- [ ] Size tracking and flush threshold
+
+### Phase 3: SSTable Flush
+- [ ] Define SSTable on-disk format
+- [ ] Serialize memtable to sorted on-disk file
+
+### Phase 4: Read Path
+- [ ] Check memtable → SSTables (newest first)
+
+### Phase 5: WAL
+- [ ] Write-ahead log for crash recovery
+- [ ] Replay log on startup
+
+### Phase 6: Compaction
+- [ ] Merge SSTables (size-tiered)
+
+### Phase 7: Bloom Filters
+- [ ] Probabilistic check to skip SSTables
+
+### Phase 8: Benchmarks
+- [ ] Random writes, sequential reads, point lookups
+
 ## Getting Started
 
 ```bash

@@ -71,7 +71,7 @@ func (t *RBTree) rightRotate(node *node) {
 	node.parent = pivot
 }
 
-func (t *RBTree) Insert(key string, value string) {
+func (t *RBTree) Insert(key, value string) {
 	newNode := &node{
 		key: key,
 		value: value,
@@ -94,13 +94,13 @@ func (t *RBTree) Insert(key string, value string) {
 	parent := t.root.parent
 
 	for curr != t.sentinel {
-		if (newNode.key == curr.key) {
+		if newNode.key == curr.key {
 			curr.value = newNode.value
 			return
 		}
 
 		parent = curr
-		if (newNode.key < curr.key) {
+		if newNode.key < curr.key {
 			curr = curr.left
 		} else {
 			curr = curr.right
@@ -155,4 +155,42 @@ func (t *RBTree) insertFixup(newNode *node) {
 		}
 	}
 	t.root.color = black
+}
+
+func (t *RBTree) Search(key string) (string, bool) {
+	if t.root == t.sentinel {
+		return "", false
+	}
+
+	curr := t.root
+	for curr != t.sentinel {
+		if curr.key == key {
+			return curr.value, true
+		}
+
+		if key < curr.key {
+			curr = curr.left
+		} else {
+			curr = curr.right
+		}
+	}
+
+	return "", false
+}
+
+type KVPair struct {
+	Key, Value string
+}
+
+func (t *RBTree) InOrderTraversal() []KVPair {
+	return t.dfs(t.root)
+}
+
+func (t *RBTree) dfs(node *node) []KVPair {
+	if node == t.sentinel {
+		return []KVPair{}
+	}
+	result := append(t.dfs(node.left), KVPair{Key: node.key, Value: node.value})
+	result = append(result, t.dfs(node.right)...)
+	return result 
 }
